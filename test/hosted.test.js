@@ -92,3 +92,20 @@ test('a quiet game costs few database commands', async () => {
   assert.ok(used <= 6, 'one waiting phone used ' + used + ' commands in four seconds');
   await call(a, 'POST', '/api/rooms/' + room.code + '/host', { key: room.hostKey, cmd: 'addBot' }); const got = await wait; assert.ok(got.json ? got.json.state : got.state, JSON.stringify(got).slice(0, 300));
 });
+
+test('the host screen hears about a phone that connects, even when nothing else changes', async () => {
+  const room = (await call(a, 'POST', '/api/rooms')).json, p = (await call(a, 'POST', '/api/rooms/' + room.code + '/join', { name: 'Late' })).json;
+  const hostUrl = '/api/rooms/' + room.code + '/host?key=' + room.hostKey;
+  const first = (await call(b, 'GET', hostUrl + '&v=0')).json;
+  assert.equal(first.on, p.pid, 'the phone that has just joined counts as connected');
+  assert.equal(first.state.players[0].online, true);
+  // The host screen is showing nobody connected (as it would after a slow first answer). Same version, so only presence can wake it.
+  const t0 = Date.now(), again = (await call(b, 'GET', hostUrl + '&v=' + first.v + '&on=')).json;
+  assert.ok(again.state && again.state.players[0].online, 'the host was sent the game again with the phone shown as connected');
+  assert.ok(Date.now() - t0 < 3000, 'and promptly');
+  // When what the host shows is already right, the request waits quietly instead.
+  const quiet = call(b, 'GET', hostUrl + '&v=' + first.v + '&on=' + p.pid);
+  const raced = await Promise.race([quiet.then(() => 'answered'), new Promise((ok) => setTimeout(() => ok('waiting'), 1500))]);
+  assert.equal(raced, 'waiting');
+  await call(a, 'POST', '/api/rooms/' + room.code + '/host', { key: room.hostKey, cmd: 'addBot' }); await quiet;
+});

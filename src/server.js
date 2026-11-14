@@ -7,7 +7,7 @@ const Store = require('./store');
 const GAMES = { quorum: require('./quorum') };
 
 const PUB = path.join(__dirname, '..', 'public');
-const POLL_MS = 20000, ONLINE_MS = 20000, TIMERS = [0, 45, 90, 180];
+const POLL_MS = 20000, ONLINE_MS = 20000, PRESENCE_MS = 6000, TIMERS = [0, 45, 90, 180];
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.woff2': 'font/woff2',
   '.svg': 'image/svg+xml', '.png': 'image/png', '.ico': 'image/x-icon', '.json': 'application/json' };
 const PAGES = { '/': 'index.html', '/host': 'host.html', '/play': 'play.html', '/quorum/host': 'host.html', '/quorum/play': 'play.html' };
@@ -57,12 +57,15 @@ function create(opts) {
     }
     throw new Error('Could not find a free game code.');
   }
-  async function viewFor(r, who) {
-    const s = who.host ? eng(r).hostView(r.g) : eng(r).playerView(r.g, who.pid), seen = await store.seen(r.code), now = Date.now();
+  // Which phones are connected right now, as one short string. The host screen sends back the one it is showing, so a
+  // phone that drops out or comes back is noticed even when nothing else in the game has changed.
+  const present = (r, seen, now) => r.g.players.filter((p) => !p.bot && now - (seen[p.id] || 0) < ONLINE_MS).map((p) => p.id).sort().join(',');
+  async function viewFor(r, who, seenNow) {
+    const s = who.host ? eng(r).hostView(r.g) : eng(r).playerView(r.g, who.pid), seen = seenNow || await store.seen(r.code), now = Date.now();
     s.code = r.code; s.timerSec = r.timerSec; s.remainingMs = r.deadline ? Math.max(0, r.deadline - now) : null;
     for (const p of s.players) p.online = !!p.bot || now - (seen[p.id] || 0) < ONLINE_MS;
     if (who.host) s.timers = TIMERS;
-    return { ok: true, v: r.v, state: s };
+    return { ok: true, v: r.v, on: present(r, seen, now), state: s };
   }
 
   // ---------- http helpers
@@ -74,8 +77,9 @@ function create(opts) {
     req.on('data', (c) => { b += c; if (b.length > 20000) { over = true; req.destroy(); } });
     req.on('end', () => { if (over) return resolve(null); try { resolve(b ? JSON.parse(b) : {}); } catch (e) { resolve(null); } });
     req.on('error', () => resolve(null)); }); }
-  function lanUrls() { const out = [];
-    for (const list of Object.values(os.networkInterfaces())) for (const i of list || []) if (i.family === 'IPv4' && !i.internal) out.push('http://' + i.address + (PORT === 80 ? '' : ':' + PORT));
+  // Addresses phones on the same network could use. A hosted copy has none: its only address is the public one in the browser.
+  function lanUrls() { const out = []; if (env.VERCEL) return out;
+    for (const list of Object.values(os.networkInterfaces())) for (const i of list || []) if (i.family === 'IPv4' && !i.internal && !i.address.startsWith('169.254.')) out.push('http://' + i.address + (PORT === 80 ? '' : ':' + PORT));
     return out; }
   function csv(r) { const rep = eng(r).report(r.g), q = (v) => '"' + String(v === undefined || v === null ? '' : v).replace(/"/g, '""') + '"';
     return [rep.cols.join(',')].concat(rep.rows.map((row) => row.map(q).join(','))).join('\r\n'); }
@@ -108,12 +112,14 @@ function create(opts) {
       else { const pid = q.get('pid'); if (!pid || r.tokens[pid] !== q.get('token')) return fail(res, 403, 'Your seat in this game was not recognised. Join again.'); who = { pid }; }
       // Long poll: answer at once if there is news, otherwise wait for a change, a deadline, or 20 seconds.
       const since = +q.get('v') || 0, end = Date.now() + POLL_MS;
-      let gone = false, m = { v: r.v, deadline: r.deadline || 0 };
+      const shown = who.host && q.has('on') ? q.get('on') : null; let gone = false, m = { v: r.v, deadline: r.deadline || 0 }, look = 0;
       res.on('close', () => { gone = true; wake(code); });
       for (let guard = 0; guard < 400 && !gone; guard++) {
         if (who.pid) await store.touch(code, who.pid);
         if (m.deadline && Date.now() >= m.deadline) { await enforce(code); m = await store.meta(code); if (!m) return fail(res, 404, NOROOM); if (m.deadline && Date.now() >= m.deadline) m.deadline = 0; continue; }
         if (m.v > since) { r = await store.get(code); if (!r) return fail(res, 404, NOROOM); return json(res, 200, await viewFor(r, who)); }
+        if (shown !== null && Date.now() >= look) { look = Date.now() + PRESENCE_MS; const seen = await store.seen(code);
+          if (present(r, seen, Date.now()) !== shown) { r = await store.get(code); if (!r) return fail(res, 404, NOROOM); return json(res, 200, await viewFor(r, who, seen)); } }
         const left = end - Date.now();
         if (left <= 0) return json(res, 200, { ok: true, v: since });
         await signal(code, Math.max(50, Math.min(store.interval, left, m.deadline ? m.deadline - Date.now() + 20 : Infinity)));

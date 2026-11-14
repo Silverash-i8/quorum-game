@@ -22,12 +22,12 @@ const App = (() => {
   }
   // Long-poll loop. onState(state) runs on every change; onStatus('ok' | 'retry' | {fatal}) reports the link.
   function poll(urlFor, onState, onStatus) {
-    let v = 0, stopped = false, fails = 0;
+    let v = 0, on = null, stopped = false, fails = 0;
     (async function loop() {
       while (!stopped) {
-        const r = await api('GET', urlFor(v));
+        const r = await api('GET', urlFor(v) + (on === null ? '' : '&on=' + encodeURIComponent(on)));
         if (stopped) return;
-        if (r.ok) { fails = 0; onStatus('ok'); if (r.v !== v) { v = r.v; onState(r.state); } continue; }
+        if (r.ok) { fails = 0; onStatus('ok'); if (r.state) { v = r.v; on = typeof r.on === 'string' ? r.on : null; onState(r.state); } continue; }
         if (r.status === 403 || r.status === 404) { onStatus({ fatal: r.error }); return; }
         fails++; onStatus('retry');
         await new Promise((ok) => setTimeout(ok, Math.min(4000, 600 * fails)));
