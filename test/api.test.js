@@ -2,7 +2,7 @@
 // The web server: rooms, joining, long-polling views, host commands, static pages.
 const test = require('node:test'), assert = require('node:assert'), http = require('http'), os = require('os'), path = require('path'), fs = require('fs');
 process.env.DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'quorum-'));
-const { server } = require('../src/server');
+const { server } = require('../src/server').create({ env: { DATA_DIR: process.env.DATA_DIR } });
 let base;
 const call = (method, url, body) => new Promise((resolve, reject) => { const d = body ? JSON.stringify(body) : null;
   const req = http.request(base + url, { method, headers: d ? { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(d) } : {} }, (res) => { let b = ''; res.on('data', (c) => { b += c; }); res.on('end', () => { let j = null; try { j = JSON.parse(b); } catch (e) { /* not json */ } resolve({ status: res.statusCode, json: j, text: b, headers: res.headers }); }); });

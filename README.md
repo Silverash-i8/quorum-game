@@ -16,6 +16,20 @@ everyone loses. Otherwise the best score wins: a share of company value, bonuses
 | `start.bat` | Everyone on the same Wi-Fi or hotspot | Double-click. Runs on Node.js at `http://localhost:3000/`. If phones cannot connect, the lobby has a box to pick another address. |
 | `stop.bat` | Finished | Stops the Docker copy. For the Node.js copy, close its window. |
 
+## Hosted on Vercel (a fixed address, no laptop needed)
+
+Vercel builds the `Dockerfile` from this repository and runs it as a container. Vercel may stop the container when nobody is
+using it, or run several copies, so on Vercel the games are kept in a Redis database instead of the server's memory.
+The server switches to the database by itself when it finds these environment variables:
+
+| Variable | Value |
+| --- | --- |
+| `PORT` | `3000` (tells Vercel which port the container listens on) |
+| `KV_REST_API_URL` and `KV_REST_API_TOKEN` | Added automatically when an Upstash Redis database is connected to the project from Vercel's Storage tab. `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` work too. |
+
+`/api/info` on the deployed site reports `"store":"redis"` when the database is in use and `"store":"memory"` when it is not.
+Every push to `main` redeploys the site.
+
 By hand: `node src/server.js` (Node 18 or newer, nothing to install), or `docker compose up --build -d`.
 
 Open the address on the laptop, press **Host a game**, and let players scan the QR code. Empty seats are filled by bots when you start.
@@ -41,14 +55,15 @@ the whole board's scores, the decisions so far, and a short guide to the rules.
 | --- | --- |
 | `src/quorum.js` | The rules, the 17 agenda items with their reports and bonuses, and the two practice bots. Numbers are in the `R` object at the top. |
 | `src/base.js` | Small engine skeleton: lobby, phases, secret submissions, views. |
-| `src/server.js` | Web server: rooms, joining, long-polling, timers, saving games, CSV report. No dependencies. |
+| `src/server.js` | Web server: rooms, joining, long-polling, timers, CSV report. No dependencies. Keeps nothing in memory between requests. |
+| `src/store.js` | Where games are kept: this computer's memory and a file, or a hosted Redis database when its address is configured. |
 | `public/` | Big screen (`host.html`), phone (`play.html`), shared shell `kit.js`, the game's screens `quorum.js`, styles, fonts, QR library. |
 | `test/` | Unit tests, server tests, a browser end-to-end test and the balance simulation. |
 | `archive/four-games/` | The earlier version with Cell Out, Chain Reaction and Patent Pending. Kept for reference; not served. |
 
 ## Checks
 
-    npm test              # 13 tests: rules, 400 bot games, junk input, privacy, server
+    npm test              # 18 tests: rules, 400 bot games, junk input, privacy, server, and the hosted set-up with two server copies
     node test/sim.js 800  # balance: honest boards, bonus-hunting boards, mixed boards
     python3 test/e2e.py   # a full game through real browsers (needs Playwright for Python)
 

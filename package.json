@@ -5,7 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "test": "node --test test/quorum.test.js test/api.test.js",
+    "test": "node --test test/quorum.test.js test/api.test.js test/hosted.test.js",
     "sim": "node test/sim.js"
   },
   "license": "MIT",
