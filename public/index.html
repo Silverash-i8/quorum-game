@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#152A9E">
+<title>Quorum</title>
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/kit.css">
+</head>
+<body class="phone">
+<main class="landing">
+  <h1 class="wordmark">Quorum</h1>
+  <p class="lede">Six directors, one battery company, eight quarters. Each of you knows something the others do not. Put it on the table, or keep quiet and vote.</p>
+  <form class="card stack" id="join">
+    <h2 style="font-size:1.7rem">On a phone</h2>
+    <label class="field" for="code">Game code on the big screen</label>
+    <input type="text" id="code" maxlength="4" autocapitalize="characters" autocomplete="off" placeholder="ABCD" style="text-transform:uppercase;letter-spacing:.15em">
+    <div class="error" id="err" hidden></div>
+    <button class="btn wide" type="submit">Join a game</button>
+  </form>
+  <div class="card stack">
+    <h2 style="font-size:1.7rem">On the laptop or projector</h2>
+    <p>Start a game and show the join code to the room. Up to six directors; bots fill the empty seats. About 40 minutes.</p>
+    <a class="btn wide" href="/host">Host a game</a>
+  </div>
+</main>
+<script>
+document.getElementById('join').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const code = document.getElementById('code').value.trim().toUpperCase(), err = document.getElementById('err');
+  let ok = false;
+  try { const r = await fetch('/api/rooms/' + encodeURIComponent(code)); ok = r.ok; } catch (x) { /* fall through */ }
+  if (ok) location.href = '/play?room=' + code; else { err.hidden = false; err.textContent = 'No game with that code. Check the four letters on the big screen.'; }
+});
+</script>
+</body>
+</html>

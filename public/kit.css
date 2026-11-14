@@ -1,0 +1,60 @@
+/* Extra pieces for the smaller games. Everything else comes from /styles.css. */
+.k-how { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.35rem; }
+.k-stat { display: grid; gap: 0.1rem; }
+.k-stat .v { font-family: var(--display); font-weight: 900; font-size: 2.6rem; line-height: 0.95; }
+.k-stat .l { font-weight: 600; color: var(--ink-soft); font-size: 0.92rem; }
+.card.flat .k-stat .l { color: var(--on-cobalt-soft); }
+.k-gauge { height: 1.1rem; border-radius: 999px; background: var(--ink-rule); overflow: hidden; position: relative; }
+.card.flat .k-gauge { background: rgba(255, 255, 255, 0.2); }
+.k-gauge i { display: block; height: 100%; background: var(--mint); border-radius: 999px; }
+.k-gauge.warn i { background: var(--label-deep); } .k-gauge.bad i { background: var(--red); }
+.k-gauge b { position: absolute; top: -0.15rem; bottom: -0.15rem; width: 3px; background: var(--ink); }
+.k-kv { display: grid; grid-template-columns: 1fr auto; gap: 0.3rem 1rem; }
+.k-kv b { text-align: right; }
+.k-pill { display: inline-flex; align-items: center; gap: 0.35rem; border-radius: 999px; padding: 0.15rem 0.6rem; font-weight: 700; font-size: 0.9em; background: var(--paper); color: var(--ink); }
+.k-pill.low { background: #D7F7EC; color: #0B5E45; } .k-pill.mid { background: #FFF1B8; color: #5C4700; } .k-pill.high { background: #FFE1DF; color: #8A1C16; }
+.k-secret { color: var(--ink); border: 2px dashed var(--violet); background: #F6F2FF; border-radius: var(--r-ctl); padding: 0.8rem 0.9rem; }
+.k-secret .kicker { color: #43278F; font-weight: 700; font-size: 0.9rem; margin-bottom: 0.2rem; }
+.k-lot { display: grid; grid-template-columns: 1fr auto; gap: 0.3rem 0.8rem; align-items: center; padding: 0.7rem 0; border-top: 1px solid var(--ink-rule); }
+.k-lot:first-of-type { border-top: 0; }
+.k-lot small { color: var(--ink-soft); display: block; }
+.k-chart { width: 100%; height: auto; display: block; }
+.k-two { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+.k-two .choice + .choice { margin-top: 0; }
+.k-three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+.k-three .choice + .choice { margin-top: 0; }
+.k-three .choice { padding: 0.6rem 0.5rem; text-align: center; }
+.k-big { font-family: var(--display); font-weight: 900; font-size: 4.5rem; line-height: 0.9; text-transform: uppercase; }
+.k-hub { max-width: 68rem; margin: 0 auto; padding: 2rem 1.2rem 3rem; display: grid; gap: 1.2rem; }
+.k-hub .wordmark { font-size: clamp(3rem, 9vw, 5.5rem); }
+.k-games { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; }
+.k-games .card { display: grid; gap: 0.6rem; align-content: start; }
+.k-games .card h2 { font-size: 2.2rem; text-transform: uppercase; margin: 0; }
+.k-joinbar { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+.k-joinbar input[type="text"] { width: 9rem; text-transform: uppercase; letter-spacing: 0.15em; font-family: var(--display); font-size: 1.6rem; padding: 0.4rem 0.8rem; }
+@media (max-width: 900px) { .host .stage-grid, .host .lobby { grid-template-columns: 1fr; } }
+.card.flat .chip { background: rgba(255, 255, 255, 0.16); color: var(--white); }
+.k-secret.card { background: #F6F2FF; }
+.k-opt { border: 2px solid var(--ink-rule); border-radius: var(--r-ctl); padding: 0.7rem 0.8rem; }
+.k-opt + .k-opt { margin-top: 0.5rem; }
+.k-facts { display: grid; gap: 0.25rem; margin-top: 0.4rem; font-size: 0.92rem; }
+.k-facts span { display: block; }
+.k-facts b { font-weight: 700; }
+.k-up { color: #0B7A57; font-weight: 700; } .k-down { color: #B3261E; font-weight: 700; }
+.card.flat .k-up { color: var(--mint); } .card.flat .k-down { color: #FFB3AE; }
+.k-row4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; text-align: center; }
+.k-row4 .v { font-family: var(--display); font-weight: 900; font-size: 1.5rem; line-height: 1; display: block; }
+.k-row4 .l { font-size: 0.74rem; color: var(--ink-soft); display: block; margin-top: 0.15rem; }
+details.card > summary { font-family: var(--display); font-weight: 800; font-size: 1.25rem; cursor: pointer; }
+details.card[open] > summary { margin-bottom: 0.5rem; }
+.k-kind { display: inline-block; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.8rem; background: var(--label); color: var(--ink); border-radius: 6px; padding: 0.1rem 0.5rem; }
+.k-kind.crisis { background: var(--red); color: #fff; }
+table.k-small { font-size: 0.9rem; } table.k-small td, table.k-small th { padding: 0.3rem 0.35rem; }
+/* Six seats and a company panel have to fit on one projector screen without scrolling. */
+.host-root { font-size: clamp(13px, 1.02vw, 26px); }
+.host .host-wrap { padding: 0.9rem 1.4rem; gap: 0.8rem; }
+.host .side .co-row { padding: 0.32rem 0; }
+.host .side .card { padding: 0.8rem 1rem; }
+.host .stage { gap: 0.8rem; }
+.host .stage > h1 { font-size: 3rem; }
+.host .k-big { font-size: 3.8rem; }

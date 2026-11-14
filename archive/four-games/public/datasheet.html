@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CELL OUT: player datasheet</title>
+<style>
+@font-face { font-family: "Big Shoulders"; src: url("/fonts/big-shoulders-display-latin-800-normal.woff2") format("woff2"); font-weight: 800; }
+@font-face { font-family: "Big Shoulders"; src: url("/fonts/big-shoulders-display-latin-900-normal.woff2") format("woff2"); font-weight: 900; }
+@font-face { font-family: "Barlow"; src: url("/fonts/barlow-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Barlow"; src: url("/fonts/barlow-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+@font-face { font-family: "Barlow"; src: url("/fonts/barlow-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: "Barlow", "Segoe UI", sans-serif; color: #0C1230; background: #E9ECF8; font-size: 9.8pt; line-height: 1.34; }
+.page { background: #fff; max-width: 210mm; margin: 12px auto; padding: 14mm 15mm; }
+h1 { font-family: "Big Shoulders", Impact, sans-serif; font-weight: 900; font-size: 34pt; line-height: 0.95; margin: 0 0 2mm; text-transform: uppercase; color: #1F3BD1; }
+h2 { font-family: "Big Shoulders", Impact, sans-serif; font-weight: 800; font-size: 15pt; line-height: 1; margin: 4.5mm 0 1.6mm; padding-top: 2mm; border-top: 2.5pt solid #1F3BD1; break-after: avoid; }
+h2 .n { color: #1F3BD1; margin-right: 2mm; }
+p { margin: 0 0 2mm; } ul, ol { margin: 0 0 2mm; padding-left: 5mm; } li { margin-bottom: 0.8mm; }
+table { border-collapse: collapse; width: 100%; margin: 1mm 0 3mm; } tr { break-inside: avoid; } table.ref { break-inside: avoid; }
+th, td { text-align: left; padding: 1mm 1.8mm; border-bottom: 0.5pt solid #C9D0EA; vertical-align: top; }
+th { background: #0C1230; color: #fff; font-weight: 600; font-size: 9.5pt; }
+td.c, th.c { text-align: center; } .lede { font-size: 12.5pt; } .small { font-size: 9pt; color: #4A5378; }
+.box { background: #F4F6FF; border-left: 3pt solid #FFD43B; padding: 2.5mm 3.5mm; margin: 2mm 0 3mm; break-inside: avoid; }
+.formula { font-weight: 700; font-size: 12pt; }
+.two { display: flex; gap: 5mm; } .two table { font-size: 8.8pt; }
+.bar { position: sticky; top: 0; background: #0C1230; color: #fff; padding: 8px 14px; display: flex; gap: 12px; align-items: center; font-weight: 600; }
+.bar button, .bar a { font: inherit; font-weight: 700; background: #FFD43B; color: #0C1230; border: 0; border-radius: 8px; padding: 6px 12px; cursor: pointer; text-decoration: none; }
+@page { size: A4; margin: 12mm 13mm; }
+@media print { body { background: #fff; } .bar { display: none; } .page { margin: 0; padding: 0; max-width: none; } }
+
+.sheet { background: #fff; width: 297mm; height: 209mm; overflow: hidden; margin: 12px auto; padding: 8mm 11mm; break-after: page; break-inside: avoid; display: flex; flex-direction: column; }
+.sheet:last-child { break-after: auto; }
+.top { display: flex; gap: 7mm; align-items: flex-end; margin-bottom: 3mm; }
+.title { font-family: "Big Shoulders", Impact, sans-serif; font-weight: 900; font-size: 26pt; line-height: 0.9; text-transform: uppercase; color: #1F3BD1; white-space: nowrap; }
+.title span { font-size: 13pt; color: #0C1230; font-weight: 800; }
+.f { flex: 1; font-weight: 600; display: flex; gap: 2mm; align-items: flex-end; white-space: nowrap; } .f.short { flex: 0.5; }
+.f i { flex: 1; border-bottom: 0.8pt solid #0C1230; height: 6mm; }
+.sheet table { margin: 0; font-size: 9.5pt; } .sheet td, .sheet th { border: 0.5pt solid #9AA3C7; padding: 0.6mm 2mm; height: 5.7mm; }
+.sheet th { font-size: 9.5pt; } .sheet td:not(.lab) { width: 30mm; } .sheet td.start { background: #F4F6FF; font-weight: 600; width: 22mm; }
+.sheet tr.grp td { background: #DDE2F5; font-weight: 700; height: auto; padding: 0.9mm 2mm; font-size: 9pt; }
+.bottom { display: flex; gap: 8mm; margin-top: 3.5mm; flex: 1; }
+.score { flex: 2.2; } .notes { flex: 1; display: flex; flex-direction: column; } .notes i { display: block; border-bottom: 0.5pt solid #9AA3C7; height: 7mm; }
+.sum { display: flex; align-items: flex-end; gap: 2mm; margin-top: 1.5mm; font-weight: 700; font-size: 12pt; }
+.sum span { display: flex; flex-direction: column; align-items: center; font-size: 7.6pt; font-weight: 600; flex: 1; text-align: center; white-space: nowrap; }
+.sum span i { display: block; width: 100%; height: 9mm; border: 0.8pt solid #0C1230; border-radius: 1.5mm; margin-bottom: 0.8mm; } .sum span.tot i { border-width: 1.8pt; border-color: #1F3BD1; }
+@page { size: A4 landscape; margin: 0; }
+@media print { .sheet { margin: 0; } }
+@media screen and (max-width: 1150px) { .sheet { transform-origin: top left; } body { overflow-x: auto; } }
+
+</style>
+</head>
+<body>
+<div class="bar"><span style="flex:1">CELL OUT: player datasheet</span><a href="/">Back to the game</a><button onclick="window.print()">Print or save as PDF</button></div><div id="sheets"><section class="sheet">
+<div class="top"><div class="title">Cell Out <span>player datasheet</span></div><div class="f">Company <i></i></div><div class="f">Player <i></i></div><div class="f short">Game code <i></i></div></div>
+<table><thead><tr><th>At the end of each year, copy these from your phone</th><th class="c">Start</th><th class="c">2027</th><th class="c">2028</th><th class="c">2029</th><th class="c">2030</th><th class="c">2031</th></tr></thead><tbody>
+<tr class="grp"><td colspan="7">Production and sales (units)</td></tr>
+<tr><td class="lab">Units made</td><td class="c start"></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lab">Sold to Premium</td><td class="c start"></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lab">Sold to Green</td><td class="c start"></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lab">Sold to Budget</td><td class="c start"></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr class="grp"><td colspan="7">Money (£m)</td></tr>
+<tr><td class="lab">Sales, including clearance and other income</td><td class="c start"></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lab">Cell costs</td><td class="c start"></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lab">Running the lines</td><td class="c start"></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lab">Investments</td><td class="c start"></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lab">Loan interest</td><td class="c start"></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lab">Fines and incidents</td><td class="c start"></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lab">Profit before tax</td><td class="c start"></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lab">Tax</td><td class="c start"></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td class="lab"><b>Cash at end of year</b></td><td class="c start">£12m</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lab">Debt</td><td class="c start">£0m</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lab">Production lines</td><td class="c start">1</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lab"><b>Net worth</b> <span class="small">(cash − debt + £3m per line)</span></td><td class="c start">£15m</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr class="grp"><td colspan="7">Standing</td></tr>
+<tr><td class="lab">Reputation <span class="small">(0 to 10)</span></td><td class="c start">5</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lab">Sustainability <span class="small">(0 to 10)</span></td><td class="c start">3</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lab">Cyber <span class="small">(0 to 3)</span></td><td class="c start">0</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lab">Patents</td><td class="c start">0</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lab">Trade secrets</td><td class="c start">0</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td class="lab">Valley cells bought, running total</td><td class="c start">0</td><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody></table>
+<div class="bottom"><div class="score"><b>Final Enterprise Score</b><div class="sum"><span><i></i>Net worth</span>+<span><i></i>Reputation</span>+<span><i></i>Sustainability</span>+<span><i></i>2 × patents</span>+<span><i></i>1 × secrets</span>−<span><i></i>Climate penalty</span>=<span class="tot"><i></i>Score</span></div></div>
+<div class="notes"><b>Decisions I would change</b><i></i><i></i></div></div>
+</section></div>
+<script>
+// ?copies=10 repeats the sheet so one print gives the full set.
+(function () { var n = Math.min(40, Math.max(1, parseInt(new URLSearchParams(location.search).get('copies') || '1', 10) || 1)); var box = document.getElementById('sheets'), one = box.innerHTML, all = ''; for (var i = 0; i < n; i++) all += one; box.innerHTML = all;
+  var bar = document.querySelector('.bar'); if (n === 1) { var a = document.createElement('a'); a.href = '?copies=10'; a.textContent = 'Show 10 copies'; bar.insertBefore(a, bar.lastElementChild); } })();
+</script>
+</body>
+</html>

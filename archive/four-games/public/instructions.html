@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CELL OUT: player instructions</title>
+<style>
+@font-face { font-family: "Big Shoulders"; src: url("/fonts/big-shoulders-display-latin-800-normal.woff2") format("woff2"); font-weight: 800; }
+@font-face { font-family: "Big Shoulders"; src: url("/fonts/big-shoulders-display-latin-900-normal.woff2") format("woff2"); font-weight: 900; }
+@font-face { font-family: "Barlow"; src: url("/fonts/barlow-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Barlow"; src: url("/fonts/barlow-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+@font-face { font-family: "Barlow"; src: url("/fonts/barlow-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: "Barlow", "Segoe UI", sans-serif; color: #0C1230; background: #E9ECF8; font-size: 9.8pt; line-height: 1.34; }
+.page { background: #fff; max-width: 210mm; margin: 12px auto; padding: 14mm 15mm; }
+h1 { font-family: "Big Shoulders", Impact, sans-serif; font-weight: 900; font-size: 34pt; line-height: 0.95; margin: 0 0 2mm; text-transform: uppercase; color: #1F3BD1; }
+h2 { font-family: "Big Shoulders", Impact, sans-serif; font-weight: 800; font-size: 15pt; line-height: 1; margin: 4.5mm 0 1.6mm; padding-top: 2mm; border-top: 2.5pt solid #1F3BD1; break-after: avoid; }
+h2 .n { color: #1F3BD1; margin-right: 2mm; }
+p { margin: 0 0 2mm; } ul, ol { margin: 0 0 2mm; padding-left: 5mm; } li { margin-bottom: 0.8mm; }
+table { border-collapse: collapse; width: 100%; margin: 1mm 0 3mm; } tr { break-inside: avoid; } table.ref { break-inside: avoid; }
+th, td { text-align: left; padding: 1mm 1.8mm; border-bottom: 0.5pt solid #C9D0EA; vertical-align: top; }
+th { background: #0C1230; color: #fff; font-weight: 600; font-size: 9.5pt; }
+td.c, th.c { text-align: center; } .lede { font-size: 12.5pt; } .small { font-size: 9pt; color: #4A5378; }
+.box { background: #F4F6FF; border-left: 3pt solid #FFD43B; padding: 2.5mm 3.5mm; margin: 2mm 0 3mm; break-inside: avoid; }
+.formula { font-weight: 700; font-size: 12pt; }
+.two { display: flex; gap: 5mm; } .two table { font-size: 8.8pt; }
+.bar { position: sticky; top: 0; background: #0C1230; color: #fff; padding: 8px 14px; display: flex; gap: 12px; align-items: center; font-weight: 600; }
+.bar button, .bar a { font: inherit; font-weight: 700; background: #FFD43B; color: #0C1230; border: 0; border-radius: 8px; padding: 6px 12px; cursor: pointer; text-decoration: none; }
+@page { size: A4; margin: 12mm 13mm; }
+@media print { body { background: #fff; } .bar { display: none; } .page { margin: 0; padding: 0; max-width: none; } }
+
+</style>
+</head>
+<body>
+<div class="bar"><span style="flex:1">CELL OUT: player instructions</span><a href="/">Back to the game</a><button onclick="window.print()">Print or save as PDF</button></div>
+<div class="page">
+<h1>Cell Out</h1>
+<p class="lede"><b>Player instructions.</b> A business game for 3 or 4 players, about 45 minutes. Each player runs a company that builds battery packs for e-bikes and scooters, from 2027 to 2031.</p>
+
+<h2><span class="n">1</span>The aim</h2>
+<p>Finish 2031 with the highest <b>Enterprise Score</b>. Money counts, and so do your Reputation, your Sustainability and the technology you own.</p>
+<div class="box"><p class="formula">Enterprise Score = net worth + Reputation + Sustainability + 2 per patent + 1 per trade secret</p>
+<p style="margin:0">Net worth is your cash, minus your debt, plus £3m for each production line. Cutting corners makes money early. It rarely wins.</p></div>
+
+<h2><span class="n">2</span>What you need</h2>
+<ul><li><b>One laptop</b> running the game, ideally on a projector or TV. This is the <b>big screen</b> that everyone watches.</li>
+<li><b>One phone each</b>, on the same Wi-Fi or hotspot as the laptop. No app to install: the game runs in the phone's browser.</li>
+<li>One <b>datasheet</b> and a pen each.</li></ul>
+
+<h2><span class="n">3</span>Starting a game</h2>
+<ol><li>The host opens <b>localhost:3000/host</b> on the laptop. The big screen shows a QR code and a four-letter game code.</li>
+<li>Each player scans the QR code with their phone camera (or types the address shown), enters a company name and presses <b>Join</b>.</li>
+<li>With fewer than 3 people, the host can press <b>Add a practice bot</b> to fill a seat.</li>
+<li>The host chooses the time allowed for each decision (90 seconds is a good start) and presses <b>Start the game</b>.</li></ol>
+<p>Every company starts the same: £12m cash, no debt, 1 production line, Reputation 5, Sustainability 3, Cyber 0. Write these in the Start column of your datasheet.</p>
+
+<h2><span class="n">4</span>Your company</h2>
+<table class=""><thead><tr><th>On your phone</th><th>Range</th><th>What it does</th></tr></thead><tbody><tr><td><b>Cash</b></td><td>£m</td><td>Pays for everything. Only you can see it.</td></tr><tr><td><b>Debt</b></td><td>0 to £15m</td><td>Loans of £5m. Interest is 10% a year, rounded up to the next £0.5m.</td></tr><tr><td><b>Production lines</b></td><td>1 to 4</td><td>Each line makes up to 2 units a year and costs £1m a year to run.</td></tr><tr><td><b>Reputation</b></td><td>0 to 10</td><td>The highest Reputation is served first by Nordic Cells and wins ties. Counts in your score. Ending on 0 halves your score.</td></tr><tr><td><b>Sustainability</b></td><td>0 to 10</td><td>The Green market needs 5 or more. Counts in your score.</td></tr><tr><td><b>Cyber</b></td><td>0 to 3</td><td>Protects you from data breaches and ransomware. At 2 or more, Premium units earn £0.5m extra.</td></tr><tr><td><b>Technology</b></td><td>patents and trade secrets</td><td>Any technology opens the Premium market. Patents are public and safe. Trade secrets are hidden and can be lost.</td></tr><tr><td><b>Skeletons</b></td><td>hidden</td><td>One for each shortcut you took. Each can be exposed later.</td></tr></tbody></table>
+<p>The big screen shows everyone's Reputation, Sustainability, Cyber, lines, patents and Valley cells. Cash, debt, trade secrets and Skeletons stay private.</p>
+
+<h2><span class="n">5</span>A year in six steps</h2>
+<table class=""><thead><tr><th>Step</th><th>On the big screen</th><th>On your phone</th></tr></thead><tbody><tr><td><b>1 News</b></td><td>One market event, what customers want this year, and what the three cell suppliers offer.</td><td>Read it. Check which markets you can sell in.</td></tr><tr><td><b>2 Dilemma</b></td><td>A real-world ethical dilemma.</td><td>Choose in secret: <b>do it properly</b> and pay £1m, or take the <b>shortcut</b>, gain £2m and hide a Skeleton. The screen shows how many chose each, never who.</td></tr><tr><td><b>3 Boardroom</b></td><td>The list of actions, then what each board did.</td><td>Choose up to <b>2 actions</b>. You may also borrow or repay one £5m loan.</td></tr><tr><td><b>4 Cells</b></td><td>Deliveries, and the Climate track moving.</td><td>Order cells from the three suppliers. One cell order makes one unit.</td></tr><tr><td><b>5 Risk</b></td><td>Two risk cards, then the press investigation.</td><td>See whether you were hit.</td></tr><tr><td><b>6 Sales</b></td><td>Who sold what in each market.</td><td>Read your year-end accounts and <b>copy them to your datasheet</b>.</td></tr></tbody></table>
+<p>When everyone has locked in, the game moves on by itself. You can change your choice until the last player locks in. The host presses the yellow button to move past each result.</p>
+
+<div class="box"><b>Three tips for your first game.</b> Keep enough cash after the boardroom to buy cells: a company that makes nothing earns nothing. Do not make more units than customers will buy: the extra sells at a loss. Buy protection (QA, Cyber) before the risk card arrives, not after.</div>
+
+<h2><span class="n">6</span>Boardroom actions</h2>
+<table class=""><thead><tr><th>Action</th><th>Cost</th><th>Effect</th></tr></thead><tbody><tr><td>Build a production line</td><td>£6m</td><td>+2 units of capacity from this year. Maximum 4 lines. Worth £3m at the end.</td></tr><tr><td>R&D and patent it</td><td>£3m</td><td>A new technology, protected. Announced on the big screen. Worth 2 points.</td></tr><tr><td>R&D, keep it secret</td><td>£2m</td><td>A new technology as a trade secret. The big screen only says you ran R&D. Worth 1 point.</td></tr><tr><td>Quality assurance (QA) system</td><td>£2m</td><td>Once only. Product recalls no longer hit you.</td></tr><tr><td>Cyber security</td><td>£1m</td><td>Cyber +1, up to 3.</td></tr><tr><td>Sustainability upgrade</td><td>£3m</td><td>Sustainability +1.</td></tr><tr><td>Recycling partnership</td><td>£3m</td><td>Once only. Sustainability +1, and LoopCell serves you before everyone else.</td></tr><tr><td>Marketing</td><td>£1m</td><td>Reputation +1.</td></tr></tbody></table>
+
+<h2><span class="n">7</span>Buying cells</h2>
+<table class=""><thead><tr><th>Supplier</th><th>Price per cell</th><th>How many</th><th>Catch</th></tr></thead><tbody><tr><td><b>Valley Cells</b><br>unaudited, high carbon</td><td>£1m, plus a carbon levy of £0.5m, £1m or £1.5m once the Climate track reaches 10, 20, 30</td><td>No limit</td><td>Each cell adds 1 to the shared Climate track. If you buy any, roll a die: on a 1 an exposé costs you 1 Reputation. If most of your cells are Valley, Sustainability −1.</td></tr><tr><td><b>Nordic Cells</b><br>audited, low carbon</td><td>£2m</td><td>Limited (see the last page)</td><td>The company with the highest Reputation is served first.</td></tr><tr><td><b>LoopCell</b><br>recycled</td><td>£1.5m</td><td>Very limited</td><td>Recycling partners are served first, then by Reputation. If at least half your cells are LoopCell, Sustainability +1.</td></tr></tbody></table>
+<p>If Nordic or LoopCell run out before your turn, you choose in advance what happens: <b>make fewer units</b>, or <b>buy Valley instead</b>. The game rolls all dice for you and shows the result.</p>
+
+<h2><span class="n">8</span>Selling</h2>
+<p>Markets sell in this order. In each one, customers are shared out one unit at a time, starting with the best-placed company, until the customers or the units run out.</p>
+<table class=""><thead><tr><th>Market</th><th>Price per unit</th><th>Who can sell</th><th>Who is served first</th></tr></thead><tbody><tr><td><b>Premium</b></td><td>£5.5m, or £6m at Cyber 2+</td><td>At least 1 technology</td><td>Most technologies, then Reputation</td></tr><tr><td><b>Green</b></td><td>£5m</td><td>Sustainability 5+</td><td>Highest Sustainability, then Reputation</td></tr><tr><td><b>Budget</b></td><td>£3.5m</td><td>Everyone</td><td>Lowest average cell cost, then Reputation</td></tr></tbody></table>
+<p>Units nobody wants are cleared at £1.5m each, which is less than they cost to make. Budget customers shrink over the five years while Green customers grow.</p>
+
+<h2><span class="n">9</span>Risk cards and how to protect yourself</h2>
+<p>Two cards are drawn each year from a deck of 12.</p>
+<table class=""><thead><tr><th>Card</th><th>In deck</th><th>What happens</th><th>Protection</th></tr></thead><tbody><tr><td><b>Product recall</b></td><td><span class="c">3</span></td><td>A batch of packs overheats in the field. Companies with no QA system that bought any Valley cells this year pay £3m and lose 1 Reputation.</td><td>Buy a QA system, or buy no Valley cells</td></tr><tr><td><b>Data breach</b></td><td><span class="c">2</span></td><td>Hackers get into company servers. Companies on Cyber 0, or below Cyber 2 while holding a trade secret, pay a £2m fine, lose 1 Reputation and lose all their trade secrets.</td><td>Raise Cyber to 2 (or to 1 if you hold no trade secrets)</td></tr><tr><td><b>Nordic strike</b></td><td><span class="c">1</span></td><td>Nordic Cells workers walk out. Companies that bought every cell from Nordic this year lose half their units, rounded up.</td><td>Buy from more than one supplier</td></tr><tr><td><b>Valley export ban</b></td><td><span class="c">1</span></td><td>Valley Cells is hit by an export ban. Companies that bought every cell from Valley this year lose half their units, rounded up.</td><td>Buy from more than one supplier</td></tr><tr><td><b>IP race</b></td><td><span class="c">1</span></td><td>A rival lab files patents in your field. Each trade secret must be patented now for £1m, or it is lost.</td><td>Patent your technology, or keep £1m spare per secret</td></tr><tr><td><b>Whistleblower</b></td><td><span class="c">1</span></td><td>An employee goes to the press. Every Skeleton is rolled again: exposed on a 1, 2 or 3.</td><td>Have no Skeletons</td></tr><tr><td><b>Factory flood</b></td><td><span class="c">1</span></td><td>Storm water reaches the factory floor. Each company rolls a die: on a 1 or 2 it loses 1 unit.</td><td>None. Keep some cash in reserve</td></tr><tr><td><b>Ransomware</b></td><td><span class="c">1</span></td><td>Production systems are locked. Companies on Cyber 0 pay £2m to recover.</td><td>Raise Cyber to 1</td></tr><tr><td><b>Safety award</b></td><td><span class="c">1</span></td><td>The industry body names its safest manufacturer. The QA-certified company with the highest Reputation gains 1 Reputation.</td><td>A reward: hold a QA system and a high Reputation</td></tr></tbody></table>
+<p><b>Press investigation.</b> After the risk cards, the game rolls a die for every hidden Skeleton. On a 1 or 2 it is exposed: you pay £5m and lose 2 Reputation. A shortcut gains you £2m; being caught costs far more.</p>
+
+<h2><span class="n">10</span>Year-end accounts</h2>
+<p>The game does the sums. Your phone shows them in this order:</p>
+<ol><li><b>Sales</b>, plus clearance of unsold units and any shortcut income.</li>
+<li><b>Costs:</b> cells, £1m per line to run, investments (every action except a new line), loan interest, fines and incidents.</li>
+<li><b>Profit before tax</b>, then <b>tax</b> of £1m for every full £4m of profit. A new production line is a capital purchase: it comes out of cash but not out of profit.</li>
+<li><b>Cash at end of year.</b> If it is below zero, the bank forces £5m emergency loans on you until it is not, and you lose 1 Reputation.</li></ol>
+
+<h2><span class="n">11</span>The end of the game</h2>
+<ol><li><b>Final audit.</b> After 2031, the game rolls a die for every Skeleton still hidden. On a 1, 2 or 3 it is exposed: £5m and 2 Reputation.</li>
+<li><b>Climate crisis.</b> If the Climate track has reached 30, every company loses 5 points, and the company that bought the most Valley cells loses 5 more.</li>
+<li><b>Score.</b> The big screen shows every company's Enterprise Score. A company on Reputation 0 has its score halved. If scores are tied, the higher Reputation wins.</li></ol>
+
+<h2><span class="n">12</span>If something goes wrong</h2>
+<ul><li><b>A phone loses the game.</b> Reopen the same address. It returns to your company. If that fails, join again with the game code and exactly the same company name.</li>
+<li><b>Someone is slow or has left.</b> The timer closes the round, or the host presses <b>Close this round now</b>. A company that did not answer does the dilemma properly, takes no actions, and orders Nordic cells it can afford.</li>
+<li><b>The laptop restarts.</b> Start the game again and reopen the host page in the same browser. Games in progress are saved.</li></ul>
+
+<h2><span class="n">13</span>Why the game works this way</h2>
+<p>Every decision touches more than one part of the business:</p>
+<ul><li><b>Supply chain and sustainability.</b> Cheap unaudited cells raise your margin, and also your carbon levy, your recall risk and the Climate track that every company shares.</li>
+<li><b>Intellectual property and data.</b> A patent costs more and is public. A trade secret is cheaper and hidden, but a data breach or a rival's filing can take it. Good cyber security protects data and lets you charge more.</li>
+<li><b>Finance.</b> Loans fund growth and cost interest. Lines are assets. Running out of cash costs Reputation.</li>
+<li><b>Ethics and risk.</b> Shortcuts pay now and become hidden liabilities. Each risk card has a control you could have bought earlier.</li></ul>
+<p><b>Reputation links them all.</b> You lose it through ethics, risk and data failures. You use it to be served first by suppliers, and it counts in the final score.</p>
+
+<h2>Reference: customers and cell supply by year</h2>
+<div class="two">
+<table class="ref"><thead><tr><th>4 players</th><th>2027</th><th>2028</th><th>2029</th><th>2030</th><th>2031</th></tr></thead><tbody><tr><td>Premium customers</td><td>2</td><td>2</td><td>3</td><td>4</td><td>5</td></tr><tr><td>Green customers*</td><td>1</td><td>3</td><td>5</td><td>7</td><td>9</td></tr><tr><td>Budget customers</td><td>7</td><td>7</td><td>6</td><td>5</td><td>4</td></tr><tr><td>Nordic cells</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr><tr><td>LoopCell cells</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr></tbody></table>
+<table class="ref"><thead><tr><th>3 players</th><th>2027</th><th>2028</th><th>2029</th><th>2030</th><th>2031</th></tr></thead><tbody><tr><td>Premium customers</td><td>2</td><td>3</td><td>4</td><td>4</td><td>5</td></tr><tr><td>Green customers*</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr><tr><td>Budget customers</td><td>6</td><td>6</td><td>5</td><td>4</td><td>4</td></tr><tr><td>Nordic cells</td><td>6</td><td>7</td><td>8</td><td>8</td><td>9</td></tr><tr><td>LoopCell cells</td><td>2</td><td>2</td><td>3</td><td>4</td><td>4</td></tr></tbody></table>
+</div>
+<p class="small">* Plus 1 for each Climate step passed (10, 20, 30).</p>
+<p class="small">Market events (one per year, 5 of 8 used): Steady year, Recession, Interest rate rise, Cobalt price spike, Battery passport law, Green subsidy, E-bike boom. The game also runs with 2, 5 or 6 companies by scaling these tables, but it is designed and balanced for 3 or 4. Rules version web-1.1.</p>
+</div>
+</body>
+</html>

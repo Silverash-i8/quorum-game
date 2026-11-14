@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Engineering business games</title>
+<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="/g/kit.css">
+</head>
+<body>
+<main class="k-hub">
+  <div>
+    <h1 class="wordmark">Game night</h1>
+    <p class="lede" style="font-size:1.2rem;max-width:44em">Four engineering business games. One laptop shows the big screen; everyone joins from a phone with the code or QR code.</p>
+  </div>
+  <form class="card k-joinbar" id="join">
+    <b style="font-size:1.15rem">On a phone? Enter the code from the big screen</b>
+    <input type="text" id="code" maxlength="4" autocapitalize="characters" autocomplete="off" placeholder="ABCD" aria-label="Game code">
+    <button class="btn" type="submit">Join</button>
+    <span class="error" id="err" hidden></span>
+  </form>
+  <div class="k-games">
+    <div class="card"><h2>Cell Out</h2><p><b>Run a battery company for five years.</b> Cheap cells and ethical shortcuts make money early. Reputation, sustainability and patents decide who wins.</p><p class="soft">3 or 4 companies · about 45 minutes</p><a class="btn wide" href="/host">Host Cell Out</a><p class="soft"><a href="/instructions">Player instructions</a> · <a href="/datasheet">Datasheet</a></p></div>
+    <div class="card"><h2>Chain Reaction</h2><p><b>Four links of one supply chain.</b> Nobody can see anyone else's stock, deliveries take two weeks, and the chain keeps or loses its contract together.</p><p class="soft">4 links, bots fill empty seats · about 30 minutes</p><a class="btn wide" href="/chain/host">Host Chain Reaction</a></div>
+    <div class="card"><h2>Quorum</h2><p><b>Four directors of one company.</b> Each has a private report and a private bonus. Table what you know or keep quiet, then vote in secret.</p><p class="soft">4 directors, bots fill empty seats · about 40 minutes</p><a class="btn wide" href="/quorum/host">Host Quorum</a></div>
+    <div class="card"><h2>Patent Pending</h2><p><b>Rival start-ups in a sealed-bid auction.</b> Win patents, quota, suppliers and data, then license to each other, or copy and hope nobody sues.</p><p class="soft">3 or 4 companies · about 35 minutes</p><a class="btn wide" href="/patent/host">Host Patent Pending</a></div>
+  </div>
+</main>
+<script>
+document.getElementById('join').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const code = document.getElementById('code').value.trim().toUpperCase(), err = document.getElementById('err');
+  let ok = false;
+  try { const r = await fetch('/api/rooms/' + encodeURIComponent(code)); ok = r.ok; } catch (x) { /* fall through */ }
+  if (ok) location.href = '/j/' + code; else { err.hidden = false; err.textContent = 'No game with that code. Check the four letters on the big screen.'; }
+});
+</script>
+</body>
+</html>

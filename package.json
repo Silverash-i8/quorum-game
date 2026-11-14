@@ -1,0 +1,13 @@
+{
+  "name": "quorum",
+  "version": "2.0.0",
+  "description": "QUORUM: an engineering business game for up to six directors. Host screen plus phones.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test test/quorum.test.js test/api.test.js",
+    "sim": "node test/sim.js"
+  },
+  "license": "MIT",
+  "private": true
+}
