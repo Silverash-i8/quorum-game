@@ -18,6 +18,9 @@ everyone loses. Otherwise the best score wins: a share of company value, bonuses
 
 ## Hosted on Vercel (a fixed address, no laptop needed)
 
+**Live at https://quorum-game.vercel.app** (host a game at `/host`; phones join at `/j/CODE` or by scanning the code on the host screen).
+Every push to `main` is built and published automatically.
+
 Vercel builds the `Dockerfile` from this repository and runs it as a container. Vercel may stop the container when nobody is
 using it, or run several copies, so on Vercel the games are kept in a Redis database instead of the server's memory.
 The server switches to the database by itself when it finds these environment variables:
